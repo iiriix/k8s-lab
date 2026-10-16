@@ -1,0 +1,36 @@
+# --- Packer ---
+packer_cache/
+crash.log
+packer-manifest.json
+manifest.json
+output-*/
+# Local variable overrides (auto-loaded by Packer, may hold machine-specific values)
+*.auto.pkrvars.hcl
+*.local.pkrvars.hcl
+
+# --- Kubernetes ---
+kubeconfig
+*.kubeconfig
+.kube/
+
+# --- Secrets ---
+.env
+.env.*
+*.pem
+*.key
+*.crt
+*.csr
+
+# --- Neovim / Vim ---
+*.swp
+*.swo
+*~
+[._]*.un~
+Session.vim
+Sessionx.vim
+.netrwhist
+.nvimlog
+tags
+
+# --- OS ---
+.DS_Store
