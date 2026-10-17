@@ -31,4 +31,9 @@ build {
       "${path.root}/scripts/90-cleanup.sh",
     ]
   }
+
+  post-processor "shell-local" {
+    inline = ["echo 'Built image: ${local.output_image}'"]
+  }
+
 }

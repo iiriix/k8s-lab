@@ -52,6 +52,27 @@ incus image list custom-debian-trixie
 incus launch <image-alias> k8s-node-1 --vm
 ```
 
+### Custom cloud-init during the build
+
+The build VM boots once with cloud-init, and whatever it does (for example
+creating the distro's default `debian` user) ends up in the image;
+`cloud-init clean` resets cloud-init's state but doesn't remove users.
+To use your own cloud-init configuration instead:
+
+- build from a cloud-init enabled base image (the default
+  `images:debian/trixie/cloud` is one; non-`cloud` variants ignore user-data)
+- pass an Incus profile that holds your `cloud-init.user-data` (starting with
+  `#cloud-config`) and the VM's NIC and root disk devices, e.g. a copy of `default`:
+
+  ```bash
+  incus profile copy default packer-build
+  incus profile set packer-build cloud-init.user-data "$(printf '#cloud-config\nusers: []\n')"
+  packer build -var 'profiles=["packer-build"]' .
+  ```
+
+Everything that user-data does is baked into the image, so keep it to what
+every instance should share. `users: []` builds an image with no default user.
+
 ## Variables
 
 | Name                 | Default                      | Description                                                     |
@@ -59,7 +80,7 @@ incus launch <image-alias> k8s-node-1 --vm
 | `base_image`         | `images:debian/trixie/cloud` | Incus image the template is built from                          |
 | `image_name`         | `custom-debian-trixie`       | Prefix of the published image alias; a timestamp is appended    |
 | `image_description`  | `Custom Debian Trixie (13) for labs` | Description stored in the published image properties    |
-| `profiles`           | `["default"]`                | Incus profiles applied to the build VM (one profile only, see below) |
+| `profiles`           | `["default"]`                | Incus profiles applied to the build VM                          |
 | `packages`           | see `variables.pkr.hcl`      | Standard Debian packages to install                             |
 | `kubernetes_version` | `v1.35`                      | Kubernetes minor release for the apt repo (must look like `v1.35`) |
 | `environment_vars`   | `[]`                         | Extra `KEY=VALUE` env vars for every shell provisioner          |
