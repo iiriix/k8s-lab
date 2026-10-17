@@ -27,6 +27,7 @@ build {
       "${path.root}/scripts/10-base-packages.sh",
       "${path.root}/scripts/20-kubernetes.sh",
       "${path.root}/scripts/30-containerd.sh",
+      "${path.root}/scripts/40-shell.sh",
       "${path.root}/scripts/80-verify.sh",
       "${path.root}/scripts/90-cleanup.sh",
     ]
