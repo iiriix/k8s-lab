@@ -27,6 +27,7 @@ variable "packages" {
   description = "Standard Debian packages to install on the image"
   default = [
     "apt-transport-https",
+    "bash-completion",
     "ca-certificates",
     "curl",
     "etcd-client",
