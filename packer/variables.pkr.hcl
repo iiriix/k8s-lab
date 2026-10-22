@@ -33,6 +33,7 @@ variable "packages" {
     "etcd-client",
     "file",
     "gpg",
+    "iproute2",
     "jq",
     "kubectx",
     "less",
